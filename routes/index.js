@@ -49,7 +49,9 @@ router.post('/sign-in',async function(req, res, next) {
 
 router.post('/add-article-to-wishlist', async function(req, res, next){
   console.log('add-article req.body', req.body);
-  const curUser = await userModel.findById('61163a0b18ecf995c8525c9f')
+  const curUser = await userModel.findOne({
+    token:'PZsPRb7yc26EZqqLGdQtP9v9mBWy2OyC'
+  })
   console.log('curUser', curUser);
   curUser.wishList.push({
     title: req.body.title,
@@ -60,6 +62,16 @@ router.post('/add-article-to-wishlist', async function(req, res, next){
   await curUser.save();
 
   res.json({result: true, curUser})
+})
+
+router.get('/display-my-articles', async function (req, res, next){
+  console.log('GET display-my-articles', req.query)
+  const findUser = await userModel.findOne({
+    token: 'PZsPRb7yc26EZqqLGdQtP9v9mBWy2OyC'
+  })
+
+  const myArticles = findUser.wishList
+  res.json({myArticles})
 })
 
 

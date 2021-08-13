@@ -12,6 +12,16 @@ const [articleList, setArticleList] = useState([]);
 let { idJournal}= useParams();
 console.log("résultat récup journal API:", articleList)
 
+const handleClickLike = async (title,description,content,urlToImage) =>{
+  console.log("click détecté like", title,description,content,urlToImage)
+  props.addToWishList(title,description,content,urlToImage)
+  const rawResponse = await fetch("/add-article-to-wishlist",{
+    method:'POST',
+    headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
+    body: `title=${title}&description=${description}&img=${urlToImage}`
+  })
+}
+
 useEffect (() =>{
   const requestApi = async () => {
     const rawJournalApi = await fetch (`https://newsapi.org/v2/top-headlines?sources=${idJournal}&apiKey=01ee0af47fe9493bbe1a861f3eb5aff9`)
@@ -46,7 +56,7 @@ console.log("idJournal:", idJournal)
                   }
                   actions={[
                       <Icon type="read" key="ellipsis2" />,
-                      <Icon type="like" key="ellipsis" onClick={() => props.addToWishList(article.title, article.description, article.content, article.urlToImage)}  />
+                      <Icon type="like" key="ellipsis" onClick={() => handleClickLike(article.title, article.description, article.content, article.urlToImage)}  />
                   ]}
                   >
                   <Meta
