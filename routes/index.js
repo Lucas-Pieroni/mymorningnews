@@ -48,7 +48,7 @@ router.post('/sign-in',async function(req, res, next) {
 });
 
 router.post('/add-article-to-wishlist', async function(req, res, next){
-  // console.log('add-article req.body', req.body);
+  console.log('add-article req.body', req.body);
   const curUser = await userModel.findOne({
     token:req.body.token
   })
@@ -67,7 +67,7 @@ router.post('/add-article-to-wishlist', async function(req, res, next){
 router.get('/display-my-articles', async function (req, res, next){
   // console.log('GET display-my-articles', req.query)
   const findUser = await userModel.findOne({
-    token: 'PZsPRb7yc26EZqqLGdQtP9v9mBWy2OyC'
+    token: req.body.token
   })
 
   const myArticles = findUser.wishList
@@ -77,7 +77,7 @@ router.get('/display-my-articles', async function (req, res, next){
 router.delete('/delete-wishlist-article', async function (req, res, next) {
   console.log('DELETE req.body', req.body)
   const findUser = await userModel.findOne({
-    token: 'PZsPRb7yc26EZqqLGdQtP9v9mBWy2OyC'
+    token: req.body.token
   })
   
   console.log('findUser', findUser)
@@ -90,13 +90,13 @@ router.delete('/delete-wishlist-article', async function (req, res, next) {
   console.log('newWishList', newWishList.length)
   
   const updatedWishList= await userModel.updateOne(
-    {token: 'PZsPRb7yc26EZqqLGdQtP9v9mBWy2OyC'},
+    {token: req.body.token},
     {wishList: newWishList}
   )
 
   
 
-  res.json({result: true})
+  res.json({result: true, newWishList})
 
 })
 
