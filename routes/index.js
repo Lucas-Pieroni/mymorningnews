@@ -83,21 +83,26 @@ router.delete('/delete-wishlist-article', async function (req, res, next) {
   console.log('findUser', findUser)
  
   const newWishList = findUser.wishList.filter((article)=>(article.title != req.body.title))
-  // console.log('filter req.body', req.body)
-  // console.log('filter req.body', req.body)
-  
-  console.log('findUser wishlist', findUser.wishList.length)
-  console.log('newWishList', newWishList.length)
-  
+
   const updatedWishList= await userModel.updateOne(
     {token: req.body.token},
     {wishList: newWishList}
   )
 
-  
-
   res.json({result: true, newWishList})
+})
 
+
+router.post('/language', async function(req, res, next){
+  const findUser = await userModel.findOne({token: "PZsPRb7yc26EZqqLGdQtP9v9mBWy2OyC"})
+
+  const updateLanguage = await userModel.updateOne(
+    {token: "PZsPRb7yc26EZqqLGdQtP9v9mBWy2OyC"},
+    {language : req.body.language}
+  )
+  console.log('updateLanguage', findUser)
+
+  res.json({result:true, language:findUser.language})
 })
 
 

@@ -10,7 +10,8 @@ var userSchema = mongoose.Schema({
     username: String,
     email: String,
     password: String,   
-    token: String, 
+    token: String,
+    language: String, 
     wishList : [wishListSchema]  
 })
 
