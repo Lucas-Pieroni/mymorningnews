@@ -15,7 +15,7 @@ console.log("résultat récup journal API:", articleList)
 const handleClickLike = async (title,description,content,urlToImage) =>{
   console.log("click détecté like", title,description,content,urlToImage)
   props.addToWishList(title,description,content,urlToImage)
-  const rawResponse = await fetch("/addarticletowishlist",{
+  const rawResponse = await fetch("/add-article-to-wishlist",{
     method:'POST',
     headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
     body: `title=${title}&description=${description}&img=${urlToImage}`
