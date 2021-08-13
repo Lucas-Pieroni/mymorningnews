@@ -12,13 +12,14 @@ const [articleList, setArticleList] = useState([]);
 let { idJournal}= useParams();
 console.log("résultat récup journal API:", articleList)
 
+const token = props.token
 const handleClickLike = async (title,description,content,urlToImage) =>{
-  console.log("click détecté like", title,description,content,urlToImage)
+  console.log("click détecté like", title,description,content,urlToImage, token)
   props.addToWishList(title,description,content,urlToImage)
-  const rawResponse = await fetch("/add-article-to-wishlist",{
+  const rawResponse = await fetch("/add-article-to-wishlist",{  
     method:'POST',
     headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
-    body: `title=${title}&description=${description}&img=${urlToImage}`
+    body: `title=${title}&description=${description}&img=${urlToImage}&token=${token}`
   })
 }
 
@@ -82,4 +83,11 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps) (ScreenArticlesBySource);
+function mapStatetoProps(state){
+  console.log("state reçus du reducer:", state)
+  return{
+    token : state.userToken
+  }
+}
+
+export default connect(mapStatetoProps, mapDispatchToProps) (ScreenArticlesBySource);
