@@ -50,7 +50,7 @@ router.post('/sign-in',async function(req, res, next) {
 router.post('/add-article-to-wishlist', async function(req, res, next){
   console.log('add-article req.body', req.body);
   const curUser = await userModel.findOne({
-    token:'PZsPRb7yc26EZqqLGdQtP9v9mBWy2OyC'
+    token:req.body.token
   })
   console.log('curUser', curUser);
   curUser.wishList.push({
