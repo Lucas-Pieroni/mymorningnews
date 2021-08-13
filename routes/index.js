@@ -3,7 +3,8 @@ var router = express.Router();
 const mongoose = require('mongoose');
 const userModel = require ('../models/user')
 var uid2 = require ("uid2");
-var bcrypt = require ("bcrypt")
+var bcrypt = require ("bcrypt");
+const { findById } = require('../models/user');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -46,6 +47,20 @@ router.post('/sign-in',async function(req, res, next) {
   }
 });
 
+router.post('/add-article-to-wishlist', async function(req, res, next){
+  console.log('add-article req.body', req.body);
+  const curUser = await userModel.findById('61163a0b18ecf995c8525c9f')
+  console.log('curUser', curUser);
+  curUser.wishList.push({
+    title: req.body.title,
+    description: req.body.description,
+    image: req.body.img
+  })
+
+  await curUser.save();
+
+  res.json({result: true, curUser})
+})
 
 
 module.exports = router;
